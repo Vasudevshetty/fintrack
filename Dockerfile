@@ -3,6 +3,13 @@
 
 FROM node:18-alpine as frontend-builder
 
+# Deployio passes these as build-time args (must be declared before npm run build)
+ARG VITE_ENVIRONMENT=development
+ARG REACT_APP_API_URL=/api
+
+ENV VITE_ENVIRONMENT=$VITE_ENVIRONMENT \
+    REACT_APP_API_URL=$REACT_APP_API_URL
+
 WORKDIR /frontend
 
 COPY frontend/package*.json ./
