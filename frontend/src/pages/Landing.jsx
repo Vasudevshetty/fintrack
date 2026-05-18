@@ -3,11 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { CreditCard, TrendingUp, PieChart, AlertCircle, ArrowRight, Lock } from 'lucide-react';
 import { getEnvironment } from '../utils/features';
 import { getEnvConfig } from '../constants/environments';
+import { isNeonDev } from '../theme/neon';
+import NeonLanding from './NeonLanding';
 
 const Landing = () => {
   const navigate = useNavigate();
   const env = getEnvironment();
   const envConfig = getEnvConfig(env);
+
+  if (isNeonDev()) {
+    return <NeonLanding />;
+  }
 
   const features = {
     development: [

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { authAPI } from "../utils/api";
 import { Mail, Lock, User as UserIcon } from "lucide-react";
 import { getEnvironment } from "../utils/features";
 import { getEnvConfig } from "../constants/environments";
+import { isNeonDev } from "../theme/neon";
+import { Sparkles } from "lucide-react";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ export const Register = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const neon = isNeonDev();
   const envConfig = getEnvConfig(getEnvironment());
 
   const handleChange = (e) => {
@@ -41,6 +44,47 @@ export const Register = () => {
       setLoading(false);
     }
   };
+
+  if (neon) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 font-body bg-neon-bg">
+        <div className="neon-card p-8 max-w-md w-full border-2 border-neon-magenta/40">
+          <div className="text-center mb-8">
+            <Sparkles className="mx-auto text-neon-magenta mb-3" size={40} />
+            <h1 className="font-display text-3xl font-bold">
+              CREATE <span className="text-neon-cyan">IDENTITY</span>
+            </h1>
+            <p className="text-neon-muted mt-2 text-sm">{envConfig.badge}</p>
+          </div>
+          {error && (
+            <div className="bg-neon-magenta/20 border border-neon-magenta/50 text-neon-magenta px-4 py-3 rounded-lg mb-6 text-sm">
+              {error}
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm text-neon-cyan mb-2">Name</label>
+              <input name="name" value={formData.name} onChange={handleChange} className="neon-input" required />
+            </div>
+            <div>
+              <label className="block text-sm text-neon-cyan mb-2">Email</label>
+              <input name="email" type="email" value={formData.email} onChange={handleChange} className="neon-input" required />
+            </div>
+            <div>
+              <label className="block text-sm text-neon-cyan mb-2">Password</label>
+              <input name="password" type="password" value={formData.password} onChange={handleChange} className="neon-input" required />
+            </div>
+            <button type="submit" disabled={loading} className="w-full neon-btn-primary py-3">
+              {loading ? "Creating..." : "Initialize Account"}
+            </button>
+          </form>
+          <p className="text-center text-neon-muted mt-6">
+            Already in the grid? <Link to="/login" className="text-neon-cyan font-semibold">Jack In</Link>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

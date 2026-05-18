@@ -1,11 +1,51 @@
 import React from 'react';
 import { getEnvironment } from '../utils/features';
 import { getEnvConfig } from '../constants/environments';
-import { Activity, AlertCircle, Lock } from 'lucide-react';
+import { Activity, AlertCircle, Lock, Zap } from 'lucide-react';
 
-const EnvironmentDashboard = ({ user }) => {
+const EnvironmentDashboard = ({ user, neon = false }) => {
   const env = getEnvironment();
   const envConfig = getEnvConfig(env);
+
+  if (neon) {
+    return (
+      <div className="mb-8">
+        <div className="neon-card neon-scanline p-6 border-2 border-neon-cyan/40 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-neon-magenta/10 rounded-full blur-3xl" />
+          <div className="flex items-start justify-between relative z-10">
+            <div>
+              <h2 className="font-display text-2xl font-bold text-neon-cyan mb-2 flex items-center gap-2">
+                <Zap className="text-neon-lime" /> NEON GRID ONLINE
+              </h2>
+              <p className="text-neon-muted mb-4">
+                Cyberpunk dev build active. All experimental systems unlocked.
+              </p>
+              <div className="space-y-1">
+                {['✨ Experimental UI theme', '🔍 Debug panel enabled', '📊 Full analytics', '🗑️ Unrestricted deletes'].map((tip, idx) => (
+                  <p key={idx} className="text-sm text-neon-text/80">{tip}</p>
+                ))}
+              </div>
+            </div>
+            <div className="text-5xl animate-neon-float">⚡</div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { label: 'Environment', value: envConfig.name, sub: envConfig.badge },
+            { label: 'Status', value: 'HYPERACTIVE', sub: 'All features' },
+            { label: 'Operator', value: user?.name || 'Demo', sub: user?.email || 'demo@fintrack.io' },
+          ].map((card) => (
+            <div key={card.label} className="neon-card p-4 border-l-4 border-neon-magenta">
+              <p className="text-xs font-semibold text-neon-muted uppercase mb-1 tracking-wider">{card.label}</p>
+              <p className="text-lg font-display font-bold text-neon-cyan">{card.value}</p>
+              <p className="text-xs text-neon-muted mt-2">{card.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const getEnvironmentMessage = () => {
     switch (env) {

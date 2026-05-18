@@ -5,7 +5,7 @@ import { StatCard, BudgetProgressBar } from "../components/Stats";
 import { LineChartComponent, PieChartComponent } from "../components/Charts";
 import { TrendingUp, CreditCard, PieChart, AlertCircle } from "lucide-react";
 
-export const Dashboard = ({ user }) => {
+export const Dashboard = ({ user, neon = false }) => {
   const [stats, setStats] = useState({
     totalSpent: 0,
     cardsCount: 0,
@@ -75,10 +75,12 @@ export const Dashboard = ({ user }) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">
-          Welcome back, {user?.name}!
+        <h1 className={`text-3xl font-bold ${neon ? "font-display text-neon-cyan neon-glow-text" : "text-gray-800"}`}>
+          {neon ? `OPERATOR ${user?.name?.toUpperCase() || "UNKNOWN"}` : `Welcome back, ${user?.name}!`}
         </h1>
-        <p className="text-gray-600 mt-2">Here's your financial overview</p>
+        <p className={`mt-2 ${neon ? "text-neon-muted" : "text-gray-600"}`}>
+          {neon ? "Real-time financial telemetry from the neon grid" : "Here's your financial overview"}
+        </p>
       </div>
 
       {/* Stats */}
@@ -89,6 +91,7 @@ export const Dashboard = ({ user }) => {
           value={formatCurrency(stats.totalSpent, user?.currency || "USD")}
           subtitle="This month"
           color="blue"
+          neon={neon}
         />
         <StatCard
           icon={CreditCard}
@@ -96,6 +99,7 @@ export const Dashboard = ({ user }) => {
           value={stats.cardsCount}
           subtitle="Active cards"
           color="purple"
+          neon={neon}
         />
         <StatCard
           icon={PieChart}
@@ -103,6 +107,7 @@ export const Dashboard = ({ user }) => {
           value={stats.transactionsCount}
           subtitle="Total recorded"
           color="green"
+          neon={neon}
         />
       </div>
 
@@ -120,14 +125,18 @@ export const Dashboard = ({ user }) => {
       </div>
 
       {/* Recent Transactions */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+      <div className={neon ? "neon-card p-6" : "bg-white rounded-lg shadow-md p-6"}>
+        <h2 className={`text-xl font-semibold mb-4 ${neon ? "font-display text-neon-magenta" : ""}`}>Recent Transactions</h2>
         <div className="space-y-4">
           {transactions.length > 0 ? (
             transactions.map((trans) => (
               <div
                 key={trans._id}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                className={`flex items-center justify-between p-4 rounded-lg ${
+                  neon
+                    ? "border border-cyan-500/20 hover:bg-neon-cyan/5"
+                    : "border border-gray-200 hover:bg-gray-50"
+                }`}
               >
                 <div className="flex items-center space-x-4">
                   <div
