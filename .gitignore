@@ -3,10 +3,15 @@ node_modules/
 dist/
 build/
 
-# Environment variables
+# Environment variables — commit only placeholder templates
 .env
+.env.*
 .env.local
-.env.*.local
+.env.dev
+.env.stg
+.env.prod
+!.env.example
+!**/.env.example
 
 # Logs
 logs/
@@ -30,6 +35,3 @@ coverage/
 # OS
 Thumbs.db
 .DS_Store
-
-.env*
-!.env.example

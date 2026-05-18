@@ -18,7 +18,7 @@ npm install
 
 ## Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Copy `backend/.env.example` to `backend/.env` (or use the root `.env.example`) and set real values:
 
 ```
 MONGODB_URI=your_mongodb_uri
