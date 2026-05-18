@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authAPI } from "../utils/api";
 import { Mail, Lock } from "lucide-react";
+import { getEnvironment } from "../utils/features";
+import { getEnvConfig } from "../constants/environments";
 
 export const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ export const Login = ({ onLoginSuccess }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const envConfig = getEnvConfig(getEnvironment());
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,14 +42,28 @@ export const Login = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{
+        background: `linear-gradient(135deg, ${envConfig.authGradientFrom} 0%, ${envConfig.authGradientTo} 100%)`,
+      }}
+    >
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+          <div
+            className="w-16 h-16 rounded-lg mx-auto mb-4 flex items-center justify-center"
+            style={{ backgroundColor: envConfig.color }}
+          >
             <span className="text-white text-2xl font-bold">₹</span>
           </div>
           <h1 className="text-3xl font-bold">FinTrack</h1>
-          <p className="text-gray-600 mt-2">Smart Finance Management</p>
+          <p className="text-gray-600 mt-2">{envConfig.description}</p>
+          <span
+            className="inline-block mt-2 text-xs font-semibold px-2 py-1 rounded-full"
+            style={{ backgroundColor: envConfig.bgColor, color: envConfig.color }}
+          >
+            {envConfig.badge}
+          </span>
         </div>
 
         {error && (
@@ -95,7 +112,8 @@ export const Login = ({ onLoginSuccess }) => {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full"
+            className="w-full text-white font-medium py-2 px-4 rounded-lg transition disabled:opacity-50"
+            style={{ backgroundColor: envConfig.color }}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
@@ -105,7 +123,8 @@ export const Login = ({ onLoginSuccess }) => {
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-blue-600 hover:underline font-medium"
+            className="hover:underline font-medium"
+            style={{ color: envConfig.color }}
           >
             Sign up
           </Link>

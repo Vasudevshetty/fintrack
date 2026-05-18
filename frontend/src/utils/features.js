@@ -1,6 +1,8 @@
-// Feature flags based on environment
-const ENVIRONMENT =
-  import.meta.env.VITE_ENVIRONMENT || process.env.ENVIRONMENT || "development";
+import { normalizeEnvironment } from "../constants/environments";
+
+const ENVIRONMENT = normalizeEnvironment(
+  import.meta.env.VITE_ENVIRONMENT || import.meta.env.ENVIRONMENT || "development",
+);
 
 const FEATURE_FLAGS = {
   development: {
@@ -38,18 +40,13 @@ const FEATURE_FLAGS = {
   },
 };
 
-const getFeatureFlags = () => {
-  const env = ENVIRONMENT.toLowerCase();
-  return FEATURE_FLAGS[env] || FEATURE_FLAGS.production;
-};
+const getFeatureFlags = () => FEATURE_FLAGS[ENVIRONMENT] || FEATURE_FLAGS.production;
 
 export const isFeatureEnabled = (feature) => {
   const flags = getFeatureFlags();
   return flags[feature] || false;
 };
 
-export const getEnvironment = () => {
-  return ENVIRONMENT.toLowerCase();
-};
+export const getEnvironment = () => ENVIRONMENT;
 
 export default FEATURE_FLAGS;

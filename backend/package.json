@@ -11,10 +11,6 @@
     "seed": "node seeds/seed.js",
     "seed:dev": "SEED_ENV=dev node seeds/seed.js",
     "seed:stg": "SEED_ENV=stg node seeds/seed.js",
-    "seed:prod": "SEED_ENV=prod node seeds/seed.js",
-    "seed": "node seeds/seed.js",
-    "seed:dev": "SEED_ENV=dev node seeds/seed.js",
-    "seed:stg": "SEED_ENV=stg node seeds/seed.js",
     "seed:prod": "SEED_ENV=prod node seeds/seed.js"
   },
   "keywords": [

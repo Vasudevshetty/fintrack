@@ -20,8 +20,12 @@ import {
 } from "./pages";
 import "./index.css";
 import { Menu } from "lucide-react";
+import { getEnvironment } from "./utils/features";
+import { getEnvConfig } from "./constants/environments";
 
 function App() {
+  const env = getEnvironment();
+  const envConfig = getEnvConfig(env);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -50,9 +54,15 @@ function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div
+        className="flex items-center justify-center h-screen"
+        style={{ backgroundColor: envConfig.shellBg }}
+      >
         <div className="text-center">
-          <div className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 animate-spin"></div>
+          <div
+            className="w-16 h-16 rounded-full mx-auto mb-4 animate-spin"
+            style={{ backgroundColor: envConfig.color }}
+          />
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
@@ -62,13 +72,16 @@ function App() {
   return (
     <Router>
       {user ? (
-        <div className="flex h-screen bg-gray-100">
+        <div
+          className="flex h-screen"
+          style={{ backgroundColor: envConfig.shellBg }}
+        >
           {/* Sidebar */}
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Navbar */}
-            <Navbar user={user} onLogout={handleLogout} />
+            <Navbar user={user} onLogout={handleLogout} envConfig={envConfig} />
 
             {/* Mobile Menu Button */}
             <button

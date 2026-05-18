@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../utils/api";
 import { Mail, Lock, User as UserIcon } from "lucide-react";
+import { getEnvironment } from "../utils/features";
+import { getEnvConfig } from "../constants/environments";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export const Register = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const envConfig = getEnvConfig(getEnvironment());
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,10 +43,23 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{
+        background: `linear-gradient(135deg, ${envConfig.authGradientFrom} 0%, ${envConfig.authGradientTo} 100%)`,
+      }}
+    >
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
         <h1 className="text-3xl font-bold text-center mb-2">Create Account</h1>
-        <p className="text-center text-gray-600 mb-8">Join FinTrack today</p>
+        <p className="text-center text-gray-600 mb-2">Join FinTrack today</p>
+        <p className="text-center mb-8">
+          <span
+            className="text-xs font-semibold px-2 py-1 rounded-full"
+            style={{ backgroundColor: envConfig.bgColor, color: envConfig.color }}
+          >
+            {envConfig.badge}
+          </span>
+        </p>
 
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-3 rounded-lg mb-6">
@@ -130,7 +146,8 @@ export const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full"
+            className="w-full text-white font-medium py-2 px-4 rounded-lg transition disabled:opacity-50"
+            style={{ backgroundColor: envConfig.color }}
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
@@ -140,7 +157,8 @@ export const Register = () => {
           Already have an account?{" "}
           <a
             href="/login"
-            className="text-blue-600 hover:underline font-medium"
+            className="hover:underline font-medium"
+            style={{ color: envConfig.color }}
           >
             Login
           </a>

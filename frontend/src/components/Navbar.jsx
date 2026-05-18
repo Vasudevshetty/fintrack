@@ -1,8 +1,8 @@
 import React from "react";
-import { Menu, LogOut, User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-export const Navbar = ({ user, onLogout }) => {
+export const Navbar = ({ user, onLogout, envConfig }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const navigate = useNavigate();
 
@@ -14,12 +14,26 @@ export const Navbar = ({ user, onLogout }) => {
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav
+      className="bg-white shadow-md"
+      style={{ borderTop: `3px solid ${envConfig?.color || "#3B82F6"}` }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
+          <Link to="/" className="flex items-center space-x-3">
+            <div
+              className="w-8 h-8 rounded-lg"
+              style={{ backgroundColor: envConfig?.color || "#3B82F6" }}
+            />
             <span className="font-bold text-xl text-gray-800">FinTrack</span>
+            {envConfig && (
+              <span
+                className="hidden sm:inline text-xs font-semibold px-2 py-1 rounded-full"
+                style={{ backgroundColor: envConfig.bgColor, color: envConfig.color }}
+              >
+                {envConfig.badge}
+              </span>
+            )}
           </Link>
 
           {user && (

@@ -4,6 +4,15 @@ export const ENVIRONMENTS = {
   PROD: "production",
 };
 
+export const ENV_ALIASES = {
+  dev: "development",
+  development: "development",
+  stg: "staging",
+  staging: "staging",
+  prod: "production",
+  production: "production",
+};
+
 export const ENV_CONFIG = {
   development: {
     name: "Development",
@@ -11,6 +20,9 @@ export const ENV_CONFIG = {
     emoji: "🧪",
     color: "#3B82F6",
     bgColor: "#EFF6FF",
+    shellBg: "#DBEAFE",
+    authGradientFrom: "#2563EB",
+    authGradientTo: "#60A5FA",
     badge: "🧪 DEVELOPMENT",
     description: "Experimental Features Hub",
     apiUrl: "http://localhost:5000/api",
@@ -23,6 +35,9 @@ export const ENV_CONFIG = {
     emoji: "⚙️",
     color: "#A855F7",
     bgColor: "#FAF5FF",
+    shellBg: "#F3E8FF",
+    authGradientFrom: "#7C3AED",
+    authGradientTo: "#C084FC",
     badge: "⚙️ STAGING",
     description: "Enterprise Ready",
     apiUrl: process.env.REACT_APP_API_URL || "/api",
@@ -35,12 +50,20 @@ export const ENV_CONFIG = {
     emoji: "🔒",
     color: "#10B981",
     bgColor: "#F0FDF4",
+    shellBg: "#DCFCE7",
+    authGradientFrom: "#059669",
+    authGradientTo: "#34D399",
     badge: "🔒 PRODUCTION",
     description: "Smart Finance Management",
     apiUrl: process.env.REACT_APP_API_URL || "/api",
     demoUser: "demo@prod.fintrack.io",
     demoPassword: "Demo@123",
   },
+};
+
+export const normalizeEnvironment = (env) => {
+  if (!env) return ENVIRONMENTS.DEV;
+  return ENV_ALIASES[env.toLowerCase()] || ENVIRONMENTS.DEV;
 };
 
 export const getEnvConfig = (env) => {
